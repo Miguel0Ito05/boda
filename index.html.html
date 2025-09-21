@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Invitación - Nuestra Boda</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f6f5f3;
+      --card:#fff;
+      --accent:#b76e79;
+      --muted:#6b6b6b;
+      --glass: rgba(255,255,255,0.6);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial;background:linear-gradient(180deg,var(--bg),#efecec);}
+    .stage{min-height:100vh;display:grid;place-items:center;padding:32px}
+    .card{
+      width:100%;max-width:920px;background:var(--card);border-radius:18px;box-shadow:0 10px 30px rgba(20,20,20,0.12);overflow:hidden;display:grid;grid-template-columns:1fr 420px;
+    }
+    @media(max-width:880px){.card{grid-template-columns:1fr}.right{order:2}}
+
+    .left{padding:48px 56px}
+    .names{font-family:'Playfair Display',serif;font-size:40px;color:var(--accent);letter-spacing:0.5px;margin:6px 0}
+    .subtitle{color:var(--muted);margin-top:8px}
+    .details{margin-top:18px;color:#333;line-height:1.6}
+    .meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+    .pill{background:var(--glass);padding:10px 14px;border-radius:999px;font-size:14px;backdrop-filter: blur(6px)}
+
+    .cta{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap}
+    .btn{padding:12px 18px;border-radius:12px;border:0;cursor:pointer;font-weight:600}
+    .btn-primary{background:var(--accent);color:white}
+    .btn-ghost{background:transparent;border:2px solid var(--accent);color:var(--accent)}
+
+    .right{background:linear-gradient(180deg, rgba(183,110,121,0.06), rgba(183,110,121,0.03));padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+    .cover{width:92%;max-width:320px;border-radius:12px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
+    .cover img{display:block;width:100%;height:auto}
+
+    .small{font-size:13px;color:var(--muted)}
+    footer{padding:12px;text-align:center;font-size:13px;color:var(--muted)}
+
+    canvas#confetti{position:fixed;pointer-events:none;left:0;top:0;width:100%;height:100%;z-index:10}
+
+    @media print{
+      body{background:white}
+      .card{box-shadow:none;border-radius:0}
+      canvas#confetti{display:none}
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confetti"></canvas>
+  <main class="stage">
+    <section class="card" role="article" aria-label="Invitación de boda virtual">
+      <div class="left">
+        <p class="small">Con cariño te invitamos a celebrar</p>
+        <h1 class="names">Ingrid &amp; Hailer</h1>
+        <p class="subtitle">Nos casamos y queremos que nos acompañes.</p>
+
+        <div class="details">
+          <p><strong>Fecha:</strong> Sábado, 25 de octubre de 2025</p>
+          <p><strong>Hora:</strong> 4:00 PM (GMT-5)</p>
+          <p><strong>Lugar:</strong> Ceremonia</p>
+
+          <div class="meta" aria-hidden="false">
+            <span class="pill">Código de vestimenta: Casual elegante</span>
+            <span class="pill">Duración aprox: 30 minutos</span>
+          </div>
+
+          <div class="cta">
+            <a id="joinBtn" class="btn btn-primary" href="https://example.com/meetlink" target="_blank" rel="noopener">Unirse a la ceremonia</a>
+            <button id="addCal" class="btn btn-ghost">Agregar a mi calendario</button>
+            <button id="download" class="btn">Descargar invitación (PDF)</button>
+          </div>
+        </div>
+
+        <p style="margin-top:18px;color:var(--muted)">Por favor confirma tu asistencia respondiendo a este mensaje o usando el botón de calendario.</p>
+      </div>
+
+      <aside class="right">
+        <div class="cover" role="img" aria-label="Foto de la pareja">
+          <img src="https://lh3.googleusercontent.com/pw/AP1GczNN7wNbEtIl_iSp_G03D_LW5gRlI_9rS7LTCuGihK-P6R4JrNHZ9kgCNzGyWAMnrZ2O5rpODHN7is2DqcJK7zLPW0ShX1PPmp2A7sualGt3GBka-sR17rYPNJQy4KL8LmoyehZoUAnWBN4Zjv-ZeT7qdw=w682-h909-s-no-gm?authuser=0" alt="Pareja celebrando"/>
+        </div>
+        <p class="small">Si quieres que incluyamos tu nombre en la entrada, envíanos un mensaje.</p>
+        <p class="small">Comparte este enlace con tus seres queridos.</p>
+      </aside>
+    </section>
+
+    
+  </main>
+
+  <script>
+    (function(){
+      const canvas = document.getElementById('confetti');
+      const ctx = canvas.getContext('2d');
+      let W = canvas.width = innerWidth;
+      let H = canvas.height = innerHeight;
+      window.addEventListener('resize',()=>{W=canvas.width=innerWidth;H=canvas.height=innerHeight});
+
+      function rand(min,max){return Math.random()*(max-min)+min}
+      const colors = ['#B76E79','#F2D1C9','#F7E9E6','#E9AFAF','#C8D7C7'];
+      const pieces = Array.from({length:95},()=>({x:rand(0,W),y:rand(-H,0),r:rand(6,12),d:rand(2,6),c:colors[Math.floor(rand(0,colors.length))],tilt:rand(-0.2,0.2)}));
+
+      function draw(){ctx.clearRect(0,0,W,H);for(let p of pieces){ctx.beginPath();ctx.ellipse(p.x,p.y,p.r*0.6,p.r, p.tilt,0,Math.PI*2);ctx.fillStyle=p.c;ctx.fill();p.y+=p.d;p.x+=Math.sin(p.y/30);p.tilt+=0.01;if(p.y>H+20){p.y=-10;p.x=rand(0,W)}}}
+      function anim(){draw();requestAnimationFrame(anim)}
+      anim();
+    })();
+
+    document.getElementById('addCal').addEventListener('click',()=>{
+      const title = 'Boda - María & Luis';
+      const desc = 'Ceremonia civil (transmisión en vivo)';
+      const location = 'En línea';
+      const start = new Date(Date.UTC(2025,9,10,21,0,0));
+      const end = new Date(start.getTime() + 30*60000);
+
+      function formatDate(d){return d.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z'}
+      const ics = [`BEGIN:VCALENDAR`,`VERSION:2.0`,`PRODID:-//Invitacion//ES`,`BEGIN:VEVENT`,`UID:${Date.now()}@invitation`,`DTSTAMP:${formatDate(new Date())}`,`DTSTART:${formatDate(start)}`,`DTEND:${formatDate(end)}`,`SUMMARY:${title}`,`DESCRIPTION:${desc}`,`LOCATION:${location}`,`END:VEVENT`,`END:VCALENDAR`].join('\r\n');
+
+      const blob = new Blob([ics],{type:'text/calendar;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');a.href=url;a.download='boda-invitacion.ics';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('download').addEventListener('click',()=>{
+      window.print();
+    });
+  </script>
+</body>
+</html>
