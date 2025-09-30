@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Invitación de Boda</title>
+<style>
+  body {
+    margin: 0;
+    background: #f9f9f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: 'Merriweather', serif;
+  }
+
+  #confetti {
+    position: fixed;
+    top:0;left:0;
+    width:100%;height:100%;
+    z-index:0;
+    pointer-events:none;
+  }
+
+  /* ✉️ Contenedor carta */
+  .sobre {
+    position: relative;
+    width: min(90vw, 400px);
+    height: 220px;
+    z-index: 2;
+    border: 2px solid #d8c96f;
+    border-radius: 8px;
+    background: #fff8e7;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Mensaje dentro */
+  .mensaje {
+    font-size: clamp(18px, 3vw, 22px);
+    font-style: italic;
+    color: #333;
+  }
+
+  .mensaje .linea {
+    display: block;
+    margin: 6px auto;
+    width: 60%;
+    height: 2px;
+    background: #d8c96f;
+  }
+
+  .mensaje span {
+    display: block;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: bold;
+    margin-top: 6px;
+    color: #222;
+  }
+
+  /* 📸 Invitación */
+  .invitacion {
+    display: none;
+    position: relative;
+    z-index: 1;
+    max-width: 500px;
+    width: 100%;
+    animation: fadeIn 1s ease forwards;
+  }
+  .invitacion img {
+    width: 100%;
+    height: auto;
+    border: 8px solid #fff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    border-radius: 12px;
+  }
+
+  @keyframes fadeIn {
+    from {opacity:0;transform:scale(0.9)}
+    to {opacity:1;transform:scale(1)}
+  }
+</style>
+</head>
+<body>
+  <!-- 🎉 Confeti -->
+  <canvas id="confetti"></canvas>
+
+  <!-- ✉️ Carta inicial -->
+  <div id="sobre" class="sobre">
+    <div class="mensaje">
+      Querido/a
+      <span class="linea"></span>
+      <span id="nombre-invitado">Invitado</span>
+    </div>
+  </div>
+
+  <!-- 📸 Invitación final -->
+  <div id="invitacion" class="invitacion">
+    <img src="Tarjeta.png" alt="Invitación de boda Ingrid y Hailer">
+  </div>
+
+<script>
+  // 🔹 Nombre dinámico desde la URL
+  const params = new URLSearchParams(window.location.search);
+  const nombre = params.get("nombre") || "Invitado";
+  document.getElementById("nombre-invitado").textContent = nombre;
+
+  // 🔹 Mostrar invitación tras 3s
+  const sobre = document.getElementById("sobre");
+  const invitacion = document.getElementById("invitacion");
+
+  setTimeout(()=>{
+    sobre.style.display="none";
+    invitacion.style.display="block";
+  }, 3000);
+</script>
+
+<script>
+  // 🎊 Confeti elegante
+  (function(){
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let W = canvas.width = innerWidth;
+    let H = canvas.height = innerHeight;
+    window.addEventListener('resize',()=>{W=canvas.width=innerWidth;H=canvas.height=innerHeight});
+
+    function rand(min,max){return Math.random()*(max-min)+min}
+    const colors = ['#d8c96f', '#f5f5dc', '#ffffff', '#f2d1c9', '#c8d7c7'];
+    const pieces = Array.from({length:70},()=>({
+      x:rand(0,W),y:rand(-H,0),r:rand(6,12),d:rand(1,3),
+      c:colors[Math.floor(rand(0,colors.length))],tilt:rand(-0.2,0.2)
+    }));
+
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      for(let p of pieces){
+        ctx.beginPath();
+        ctx.ellipse(p.x,p.y,p.r*0.6,p.r,p.tilt,0,Math.PI*2);
+        ctx.fillStyle=p.c;
+        ctx.fill();
+        p.y+=p.d;
+        p.x+=Math.sin(p.y/60);
+        p.tilt+=0.004;
+        if(p.y>H+20){p.y=-10;p.x=rand(0,W)}
+      }
+    }
+    function anim(){draw();requestAnimationFrame(anim)}
+    anim();
+  })();
+</script>
+</body>
+</html>
