@@ -116,8 +116,14 @@
 
   // 🎶 Configuración del audio
   const audio = document.getElementById("bg-music");
-  audio.volume = 0.3; // volumen suave
+  audio.volume = 0.2;
 
+  // Cuando el usuario haga cualquier clic o toque → activar sonido
+  document.addEventListener("click", () => {
+    audio.muted = false;
+    audio.play();
+  }, { once: true });
+  
   // 🔹 Mostrar invitación tras 3s y arrancar música
   const sobre = document.getElementById("sobre");
   const invitacion = document.getElementById("invitacion");
