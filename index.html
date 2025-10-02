@@ -102,10 +102,15 @@
     <img src="Tarjeta.png" alt="Invitación de boda Ingrid y Hailer">
   </div>
 
-  <audio autoplay loop>
+   <audio id="bg-music" autoplay loop>
   <source src="Yiruma.mp3" type="audio/mpeg">
-  
 </audio>
+
+<script>
+  const audio = document.getElementById("bg-music");
+  audio.volume = 0.3; // volumen entre 0 y 1
+</script>
+
 
 <script>
   // 🔹 Nombre dinámico desde la URL
