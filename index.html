@@ -102,15 +102,11 @@
     <img src="Tarjeta.png" alt="Invitación de boda Ingrid y Hailer">
   </div>
 
-   <audio id="bg-music" autoplay loop>
+   
+<!-- 🎶 Audio -->
+<audio id="bg-music" loop>
   <source src="Yiruma.mp3" type="audio/mpeg">
 </audio>
-
-<script>
-  const audio = document.getElementById("bg-music");
-  audio.volume = 0.3; // volumen entre 0 y 1
-</script>
-
 
 <script>
   // 🔹 Nombre dinámico desde la URL
@@ -118,15 +114,21 @@
   const nombre = params.get("nombre") || "Invitado";
   document.getElementById("nombre-invitado").textContent = nombre;
 
-  // 🔹 Mostrar invitación tras 3s
+  // 🎶 Configuración del audio
+  const audio = document.getElementById("bg-music");
+  audio.volume = 0.3; // volumen suave
+
+  // 🔹 Mostrar invitación tras 3s y arrancar música
   const sobre = document.getElementById("sobre");
   const invitacion = document.getElementById("invitacion");
 
   setTimeout(()=>{
     sobre.style.display="none";
     invitacion.style.display="block";
+    audio.play().catch(err => console.log("Autoplay bloqueado:", err));
   }, 3000);
 </script>
+
 
 <script>
   // 🎊 Confeti elegante
