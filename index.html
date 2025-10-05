@@ -27,12 +27,12 @@
   /* ✉️ Carta */
   .sobre {
     position: relative;
-    width: min(90vw, 400px);
+    width: min(90vw, 420px);
     height: auto;
-    padding: 30px 20px;
+    padding: 35px 25px;
     z-index: 2;
     border: 2px solid #d8c96f;
-    border-radius: 8px;
+    border-radius: 10px;
     background: #fff8e7;
     box-shadow: 0 6px 18px rgba(0,0,0,0.25);
     display: flex;
@@ -40,13 +40,13 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    gap: 10px;
   }
 
   .mensaje {
     font-size: clamp(18px, 3vw, 22px);
     font-style: italic;
     color: #333;
+    font-family: 'Merriweather', serif;
   }
 
   .mensaje .linea {
@@ -63,18 +63,15 @@
     font-weight: bold;
   }
 
-  /* 💬 Mensaje adicional */
+  /* 💬 Mensaje adicional (ahora con mismo estilo de tipografía) */
   .mensaje-distancia {
-    margin-top: 12px;
-    font-size: 15px;
+    margin-top: 16px;
+    font-size: clamp(16px, 2.6vw, 19px);
     font-style: italic;
-    color: #6a5a2d;
-    background: #fffdf5;
-    padding: 10px 16px;
-    border-left: 3px solid #d8c96f;
-    border-radius: 6px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    max-width: 90%;
+    color: #333;
+    line-height: 1.5;
+    font-family: 'Merriweather', serif;
+    width: 90%;
   }
 
   /* 📸 Invitaciones */
@@ -111,8 +108,8 @@
       <span class="linea"></span>
       <span id="nombre-invitado">Invitado</span>
       <p id="mensaje-distancia" class="mensaje-distancia" style="display:none;">
-        Desde la distancia, queremos que seas partícipe de nuestra unión matrimonial,  
-        acompañándonos con tu cariño y buenos deseos 💍
+        Desde la distancia queremos que seas partícipe de nuestra unión matrimonial,  
+        compartiendo este día con nosotros en pensamiento y en corazón 💛
       </p>
     </div>
   </div>
@@ -124,7 +121,7 @@
 
   <!-- 🌍 Invitación a distancia -->
   <div id="invitacion-distancia" class="invitacion">
-    <img src="Tarjeta2.png" alt="Invitación virtual Ingrid y Hailer">
+    <img src="Tarjeta-Digital.png" alt="Invitación virtual Ingrid y Hailer">
   </div>
 
   <!-- 🎶 Música -->
@@ -141,14 +138,14 @@
     audio.play();
   }, { once: true });
 
-  // Lista de invitados a distancia
+  // 💌 Lista de invitados a distancia
   const invitadosDistancia = [
-    "Luz Mary Estupiñán",
-    "Nilson Gómez arrollo",
-    "liliana Gómez largacha",
-    "Jhonatan Cifuentes",
-    
-          
+    "Carlos López",
+    "María Fernanda",
+    "Laura Martínez",
+    "Pedro Pérez",
+    "Ana Torres",
+    "Jorge Herrera"
   ];
 
   // 🔹 Nombre desde la URL
@@ -168,7 +165,7 @@
     mensajeDistancia.style.display = "block";
   }
 
-  // 🔹 Mostrar invitación tras 4 segundos
+  // 🔹 Mostrar invitación tras 3 segundos
   setTimeout(()=>{
     sobre.style.display = "none";
     if (esDistancia) {
