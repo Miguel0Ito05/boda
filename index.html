@@ -24,23 +24,25 @@
     pointer-events:none;
   }
 
-  /* ✉️ Contenedor carta */
+  /* ✉️ Carta */
   .sobre {
     position: relative;
     width: min(90vw, 400px);
-    height: 220px;
+    height: auto;
+    padding: 30px 20px;
     z-index: 2;
     border: 2px solid #d8c96f;
     border-radius: 8px;
     background: #fff8e7;
     box-shadow: 0 6px 18px rgba(0,0,0,0.25);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
+    gap: 10px;
   }
 
-  /* Mensaje dentro */
   .mensaje {
     font-size: clamp(18px, 3vw, 22px);
     font-style: italic;
@@ -56,12 +58,26 @@
   }
 
   .mensaje span {
-  display: block;
-  margin-top: 6px;
-}
+    display: block;
+    margin-top: 6px;
+    font-weight: bold;
+  }
 
+  /* 💬 Mensaje adicional */
+  .mensaje-distancia {
+    margin-top: 12px;
+    font-size: 15px;
+    font-style: italic;
+    color: #6a5a2d;
+    background: #fffdf5;
+    padding: 10px 16px;
+    border-left: 3px solid #d8c96f;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    max-width: 90%;
+  }
 
-  /* 📸 Invitación */
+  /* 📸 Invitaciones */
   .invitacion {
     display: none;
     position: relative;
@@ -94,47 +110,75 @@
       Querido/a
       <span class="linea"></span>
       <span id="nombre-invitado">Invitado</span>
+      <p id="mensaje-distancia" class="mensaje-distancia" style="display:none;">
+        Desde la distancia, queremos que seas partícipe de nuestra unión matrimonial,  
+        acompañándonos con tu cariño y buenos deseos 💍
+      </p>
     </div>
   </div>
 
-  <!-- 📸 Invitación final -->
-  <div id="invitacion" class="invitacion">
+  <!-- 📸 Invitación presencial -->
+  <div id="invitacion-presencial" class="invitacion">
     <img src="Tarjeta.png" alt="Invitación de boda Ingrid y Hailer">
   </div>
 
-   
-<!-- 🎶 Audio -->
-<audio id="bg-music" loop>
-  <source src="Yiruma.mp3" type="audio/mpeg">
-</audio>
+  <!-- 🌍 Invitación a distancia -->
+  <div id="invitacion-distancia" class="invitacion">
+    <img src="Tarjeta2.png" alt="Invitación virtual Ingrid y Hailer">
+  </div>
+
+  <!-- 🎶 Música -->
+  <audio id="bg-music" loop>
+    <source src="Yiruma.mp3" type="audio/mpeg">
+  </audio>
 
 <script>
-  // 🔹 Nombre dinámico desde la URL
-  const params = new URLSearchParams(window.location.search);
-  const nombre = params.get("nombre") || "Invitado";
-  document.getElementById("nombre-invitado").textContent = nombre;
-
-  // 🎶 Configuración del audio
+  // 🎵 Música con clic
   const audio = document.getElementById("bg-music");
-  audio.volume = 0.3;
-
-  // Cuando el usuario haga cualquier clic o toque → activar sonido
+  audio.volume = 0.2;
   document.addEventListener("click", () => {
     audio.muted = false;
     audio.play();
   }, { once: true });
-  
-  // 🔹 Mostrar invitación tras 3s y arrancar música
-  const sobre = document.getElementById("sobre");
-  const invitacion = document.getElementById("invitacion");
 
+  // Lista de invitados a distancia
+  const invitadosDistancia = [
+    "Luz Mary Estupiñán",
+    "Nilson Gómez arrollo",
+    "liliana Gómez largacha",
+    "Jhonatan Cifuentes",
+    
+          
+  ];
+
+  // 🔹 Nombre desde la URL
+  const params = new URLSearchParams(window.location.search);
+  const nombre = params.get("nombre") || "Invitado";
+  document.getElementById("nombre-invitado").textContent = nombre;
+
+  const sobre = document.getElementById("sobre");
+  const invitacionPresencial = document.getElementById("invitacion-presencial");
+  const invitacionDistancia = document.getElementById("invitacion-distancia");
+  const mensajeDistancia = document.getElementById("mensaje-distancia");
+
+  // 💡 Si el nombre está en la lista, muestra mensaje y tarjeta distinta
+  const esDistancia = invitadosDistancia.includes(nombre);
+
+  if (esDistancia) {
+    mensajeDistancia.style.display = "block";
+  }
+
+  // 🔹 Mostrar invitación tras 4 segundos
   setTimeout(()=>{
-    sobre.style.display="none";
-    invitacion.style.display="block";
+    sobre.style.display = "none";
+    if (esDistancia) {
+      invitacionDistancia.style.display = "block";
+    } else {
+      invitacionPresencial.style.display = "block";
+    }
     audio.play().catch(err => console.log("Autoplay bloqueado:", err));
   }, 3000);
 </script>
-
 
 <script>
   // 🎊 Confeti elegante
